@@ -6,8 +6,9 @@ const { successResponse, errorResponse } = require("../utils/responseHandler");
 
 const registerUser = async (req, res) => {
   try {
-    const { name, email, passowrd } = req.body;
-    if ((!name || !email || !passowrd)) {
+    const { name, email, password } = req.body;
+    
+    if ((!name || !email || !password)) {
       return errorResponse(res, STATUS.BAD_REQUEST, "All fields are required");
     }
 
@@ -16,7 +17,7 @@ const registerUser = async (req, res) => {
       return errorResponse(res, STATUS.BAD_REQUEST, "User is already exists");
     }
 
-    const hashedPassword = await bcrypt.hash(passowrd, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
       name,
@@ -37,14 +38,14 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    const { email, passowrd } = req.body;
+    const { email, password } = req.body;
 
     const user = await User.findOne({ email });
     if (!user) {
       return errorResponse(res, STATUS.BAD_REQUEST, "Invalid user credentials");
     }
 
-    const isMatch = await bcrypt.compare(passowrd, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return errorResponse(res, STATUS.BAD_REQUEST, "Invalid credentials");
     }

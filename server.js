@@ -34,6 +34,26 @@ io.on("connection",(socket) => {
     socket.on("userOnline",(userId)=> {
         socket.userId=userId;
         onlineUsers=add(userId);
-        io.emit("UpdateOnlineUsers",Array.from(onlineUsers))''
+        io.emit("UpdateOnlineUsers",Array.from(onlineUsers))
+
     })
+
+    socket.on("moveCard",(data)=> {
+        socket.broadcast.emit("cardMoved",data);
+    })
+
+    socket.on("addCard",(data)=> {
+        socket.broadcast.emit("cardAdded",data)
+    })
+
+    socket.on("disconnect",() => {
+        if(socket.userId) onlineUsers.delete(socket.userId);
+        io.emit("updateOnlineUsers",Array.from(onlineUsers))
+        console.log("User Disconnected")
+    })
+})
+
+const PORT=process.env.PORT || 5000;
+httpServer.listen(PORT,() => {
+    `Server is listning on Port : ${PORT}`
 })
