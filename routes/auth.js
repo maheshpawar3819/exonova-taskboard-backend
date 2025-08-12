@@ -64,6 +64,8 @@ router.post('/register', async (req, res) => {
   }
 });
 
+
+
 // @route   POST /api/auth/login
 // @desc    Login user
 // @access  Public
