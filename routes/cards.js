@@ -73,11 +73,12 @@ router.post('/', auth, async (req, res) => {
 // @access  Private
 router.get('/:id', auth, checkCardAccess, async (req, res) => {
   try {
+    console.log("hii mahi")
     const card = await Card.findById(req.params.id)
       .populate('assignees', 'name email avatar')
       .populate('comments.user', 'name email avatar')
       .populate('activityLog.user', 'name email avatar');
-
+    console.log("card",card)
     if (!card) {
       return res.status(404).json({ message: 'Card not found' });
     }

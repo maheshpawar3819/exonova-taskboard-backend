@@ -78,9 +78,9 @@ const checkBoardAccess = async (req, res, next) => {
 
 const checkCardAccess = async (req, res, next) => {
   try {
-    const { cardId } = req.params;
-    const userId = req.user._id;
-    
+    const  cardId  = req.params.id;
+    const userId = req.user._id.toString();
+    console.log(req.params.id)
     const Card = require('../models/Card');
     const card = await Card.findById(cardId).populate('board');
     

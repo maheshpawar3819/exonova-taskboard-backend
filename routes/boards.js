@@ -12,7 +12,7 @@ const router = express.Router();
 router.post('/', auth, async (req, res) => {
   try {
     const { title, description, isPublic } = req.body;
-    console.log('Creating board:', { title, description, isPublic });
+    // console.log('Creating board:', { title, description, isPublic });
 
     if (!title) {
       return res.status(400).json({ message: 'Board title is required' });
@@ -171,7 +171,7 @@ router.post('/:id/members', auth, checkBoardAccess, async (req, res) => {
   try {
     const { userId, role = 'editor' } = req.body;
     const board = req.board;
-
+    // console.log(board)
     // Validate userId format
     if (!userId || typeof userId !== 'string' || userId.length !== 24) {
       return res.status(400).json({ message: 'Invalid user ID format' });
