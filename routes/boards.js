@@ -199,20 +199,6 @@ router.post('/:id/members', auth, checkBoardAccess, async (req, res) => {
 
     await board.save();
 
-    // Emit socket event for real-time updates
-    const io = req.app.get('io');
-    if (io) {
-      io.to(`board:${boardId}`).emit('member_added', {
-        boardId,
-        memberName: user.name,
-        addedBy: {
-          userId: req.user._id,
-          userName: req.user.name
-        },
-        timestamp: new Date()
-      });
-    }
-
     const populatedBoard = await Board.findById(board._id)
       .populate('owner', 'name email avatar')
       .populate('members.user', 'name email avatar');

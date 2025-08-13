@@ -5,22 +5,22 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const http = require('http');
 const socketIo = require('socket.io');
-require('dotenv').config();
+// require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
 const boardRoutes = require('./routes/boards');
 const cardRoutes = require('./routes/cards');
 const userRoutes = require('./routes/users');
-const { setupSocketHandlers } = require('./socket/socketHandlers');
+// const { setupSocketHandlers } = require('./socket/socketHandlers');
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server, {
-  cors: {
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
-    methods: ["GET", "POST"]
-  }
-});
+// const io = socketIo(server, {
+//   cors: {
+//     origin: process.env.CLIENT_URL || "http://localhost:5173",
+//     methods: ["GET", "POST"]
+//   }
+// });
 
 // Middleware
 app.use(helmet());
@@ -40,7 +40,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Make io available to routes
-app.set('io', io);
+// app.set('io', io);
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -54,7 +54,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // Socket.io setup
-setupSocketHandlers(io);
+// setupSocketHandlers(io);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/exonova-task-board', {
